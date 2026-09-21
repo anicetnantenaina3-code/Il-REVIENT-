@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pose ta question — Il revient</title>
+<title>Il revient — L'Evangile et le retour de Jesus-Christ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -14,27 +14,284 @@
     --dawn-gold: #d9a441;
     --dawn-gold-soft: #e8c47a;
     --cream: #f6f2e9;
+    --ember: #b8563a;
     --line: rgba(246,242,233,0.14);
-    --bubble-user: #2c3a5e;
     --font-display: 'Fraunces', serif;
     --font-body: 'Work Sans', sans-serif;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { height: 100%; }
+  html { scroll-behavior: smooth; }
   body {
-    background: linear-gradient(to bottom, #0d1526 0%, #131c33 50%, #1d2b4d 100%);
+    background: var(--ink-night);
     color: var(--cream);
     font-family: var(--font-body);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 28px; }
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 50;
+    padding: 22px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to bottom, rgba(19,28,51,0.9), transparent);
+  }
+  .brand { font-family: var(--font-display); font-size: 19px; letter-spacing: 0.02em; }
+  .nav-links { display: flex; gap: 26px; font-size: 14px; }
+  .nav-links a { text-decoration: none; opacity: 0.75; transition: opacity 0.2s; }
+  .nav-links a:hover { opacity: 1; }
+  @media (max-width: 560px) { .nav-links { display: none; } }
+  .hero {
+    position: relative;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
-  }
-  header {
-    padding: 22px 20px 16px;
+    justify-content: center;
+    align-items: center;
     text-align: center;
-    border-bottom: 1px solid var(--line);
-    flex-shrink: 0;
+    padding: 120px 28px 80px;
+    overflow: hidden;
   }
+  .hero-sky {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 900px 500px at 50% 100%, rgba(217,164,65,0.35), transparent 70%),
+      linear-gradient(to bottom, #0d1526 0%, #131c33 45%, #1d2b4d 75%, #2c3a5e 100%);
+    z-index: -2;
+  }
+  .hero-rays {
+    position: absolute;
+    bottom: -10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1400px;
+    height: 1400px;
+    background: conic-gradient(from 0deg at 50% 50%,
+      transparent 0deg, rgba(217,164,65,0.08) 8deg, transparent 16deg,
+      transparent 40deg, rgba(217,164,65,0.06) 48deg, transparent 56deg,
+      transparent 90deg, rgba(217,164,65,0.08) 98deg, transparent 106deg,
+      transparent 140deg, rgba(217,164,65,0.05) 148deg, transparent 156deg,
+      transparent 180deg);
+    border-radius: 50%;
+    z-index: -1;
+    opacity: 0;
+    animation: rays-in 2.4s ease-out 0.3s forwards;
+  }
+  @keyframes rays-in { to { opacity: 1; } }
+  .eyebrow-verse {
+    font-size: 14px;
+    opacity: 0;
+    color: var(--dawn-gold-soft);
+    margin-bottom: 22px;
+    max-width: 380px;
+    font-style: italic;
+    animation: fade-up 1s ease-out 0.2s forwards;
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(42px, 9vw, 76px);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    opacity: 0;
+    animation: fade-up 1s ease-out 0.5s forwards;
+  }
+  .hero h1 em { font-style: italic; color: var(--dawn-gold); }
+  .hero p.lede {
+    margin-top: 26px;
+    max-width: 480px;
+    font-size: 17px;
+    opacity: 0;
+    color: rgba(246,242,233,0.8);
+    animation: fade-up 1s ease-out 0.75s forwards;
+  }
+  .hero-cta {
+    margin-top: 40px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    opacity: 0;
+    animation: fade-up 1s ease-out 1s forwards;
+  }
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .btn {
+    display: inline-block;
+    padding: 14px 28px;
+    border-radius: 3px;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+  .btn-primary { background: var(--dawn-gold); color: #1a1002; }
+  .btn-primary:hover { background: var(--dawn-gold-soft); transform: translateY(-1px); }
+  .btn-ghost { border: 1px solid rgba(246,242,233,0.3); color: var(--cream); }
+  .btn-ghost:hover { border-color: rgba(246,242,233,0.6); }
+  section { padding: 100px 0; border-top: 1px solid var(--line); }
+  .section-label { font-size: 14px; color: var(--dawn-gold-soft); margin-bottom: 14px; }
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(30px, 5vw, 42px);
+    line-height: 1.15;
+    margin-bottom: 28px;
+    max-width: 560px;
+  }
+  .prose { max-width: 620px; font-size: 17px; color: rgba(246,242,233,0.85); }
+  .prose p + p { margin-top: 18px; }
+  .verse-block { margin: 36px 0; padding-left: 22px; border-left: 2px solid var(--dawn-gold); }
+  .verse-block p { font-family: var(--font-display); font-style: italic; font-size: 20px; line-height: 1.5; color: var(--cream); }
+  .verse-ref { display: block; margin-top: 10px; font-family: var(--font-body); font-style: normal; font-size: 14px; color: var(--dawn-gold-soft); }
+  .signs { margin-top: 44px; display: flex; flex-direction: column; }
+  .sign { display: flex; gap: 24px; padding: 26px 0; border-top: 1px solid var(--line); }
+  .sign:last-child { border-bottom: 1px solid var(--line); }
+  .sign-mark { font-family: var(--font-display); font-style: italic; font-size: 22px; color: var(--dawn-gold); flex-shrink: 0; width: 32px; }
+  .sign-text h3 { font-family: var(--font-body); font-weight: 600; font-size: 17px; margin-bottom: 6px; }
+  .sign-text p { font-size: 15.5px; color: rgba(246,242,233,0.72); }
+  .chatbot-card {
+    margin-top: 40px;
+    padding: 32px 28px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, rgba(217,164,65,0.1), rgba(217,164,65,0.02));
+    border: 1px solid rgba(217,164,65,0.3);
+    text-align: center;
+  }
+  .chatbot-card h3 { font-family: var(--font-display); font-size: 22px; margin-bottom: 10px; }
+  .chatbot-card p { font-size: 15px; color: rgba(246,242,233,0.75); margin-bottom: 22px; }
+  .cta-section { text-align: center; background: linear-gradient(to bottom, var(--ink-night), #0d1526); }
+  .cta-section h2 { margin-left: auto; margin-right: auto; }
+  .cta-section .prose { margin-left: auto; margin-right: auto; text-align: center; }
+  .cta-section .hero-cta { margin-top: 36px; opacity: 1; animation: none; }
+  footer { padding: 50px 0 60px; text-align: center; font-size: 13.5px; color: rgba(246,242,233,0.45); border-top: 1px solid var(--line); }
+  @media (max-width: 560px) {
+    section { padding: 70px 0; }
+    .sign { gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">Il revient</div>
+  <div class="nav-links">
+    <a href="#evangile">L'Evangile</a>
+    <a href="#retour">Son retour</a>
+    <a href="#signes">Les signes</a>
+    <a href="chat.html">Discuter</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-sky"></div>
+  <div class="hero-rays"></div>
+  <p class="eyebrow-verse">« Voici, je viens bientot, et j'apporte avec moi ma remuneration. »</p>
+  <h1>Le jour se leve.<br><em>Il revient.</em></h1>
+  <p class="lede">Jesus-Christ est mort, il est ressuscite, et il a promis de revenir. Ce site parle de la bonne nouvelle qu'il a laissee, et de l'esperance de son retour.</p>
+  <div class="hero-cta">
+    <a href="#evangile" class="btn btn-primary">Decouvrir l'Evangile</a>
+    <a href="chat.html" class="btn btn-ghost">Discuter avec l'assistant</a>
+  </div>
+</header>
+
+<section id="evangile">
+  <div class="wrap">
+    <p class="section-label">La bonne nouvelle</p>
+    <h2>Ce que Dieu a fait pour toi</h2>
+    <div class="prose">
+      <p>L'Evangile n'est pas d'abord une regle a suivre, mais une nouvelle a recevoir : Dieu, dans son amour, a envoye son Fils Jesus-Christ pour porter le poids de nos fautes, mourir a notre place, et ressusciter le troisieme jour pour vaincre la mort elle-meme.</p>
+      <p>Ce n'est pas le fruit d'un effort humain. C'est un don. Celui qui met sa confiance en Jesus-Christ recoit le pardon, une vie nouvelle, et l'assurance d'etre avec Dieu pour toujours.</p>
+    </div>
+    <div class="verse-block">
+      <p>« Car Dieu a tant aime le monde qu'il a donne son Fils unique, afin que quiconque croit en lui ne perisse point, mais qu'il ait la vie eternelle. »</p>
+      <span class="verse-ref">Jean 3.16</span>
+    </div>
+  </div>
+</section>
+
+<section id="retour">
+  <div class="wrap">
+    <p class="section-label">La promesse</p>
+    <h2>Jesus a promis de revenir</h2>
+    <div class="prose">
+      <p>Avant de quitter ses disciples, Jesus n'a pas laisse un simple souvenir, il a laisse une promesse ferme. Il reviendra, non plus discretement comme lors de sa naissance, mais avec puissance et gloire, visible de tous.</p>
+    </div>
+    <div class="verse-block">
+      <p>« Ce Jesus, qui a ete enleve au ciel du milieu de vous, viendra de la meme maniere que vous l'avez vu allant au ciel. »</p>
+      <span class="verse-ref">Actes 1.11</span>
+    </div>
+
+    <div class="chatbot-card">
+      <h3>Une question sur son retour ?</h3>
+      <p>Discute librement avec notre assistant sur l'Evangile et l'esperance du retour de Christ.</p>
+      <a href="chat.html" class="btn btn-primary">Ouvrir la discussion</a>
+    </div>
+  </div>
+</section>
+
+<section id="signes">
+  <div class="wrap">
+    <p class="section-label">Veiller et discerner</p>
+    <h2>Les signes des temps</h2>
+    <div class="prose">
+      <p>L'Ecriture n'appelle pas a calculer une date, mais a veiller avec discernement.</p>
+    </div>
+    <div class="signs">
+      <div class="sign">
+        <span class="sign-mark">I</span>
+        <div class="sign-text">
+          <h3>L'Evangile proclame partout</h3>
+          <p>La bonne nouvelle du royaume sera prechee dans le monde entier, en temoignage a toutes les nations.</p>
+        </div>
+      </div>
+      <div class="sign">
+        <span class="sign-mark">II</span>
+        <div class="sign-text">
+          <h3>Des temps difficiles</h3>
+          <p>Guerres, famines, tremblements de terre, des bouleversements qui ne sont que le commencement des douleurs.</p>
+        </div>
+      </div>
+      <div class="sign">
+        <span class="sign-mark">III</span>
+        <div class="sign-text">
+          <h3>Une vigilance de tous les instants</h3>
+          <p>« Quant a ce jour et a cette heure, personne ne le sait », d'ou l'appel constant a etre pret.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="wrap">
+    <p class="section-label">Et maintenant ?</p>
+    <h2>Tu peux repondre a cette bonne nouvelle aujourd'hui</h2>
+    <div class="prose">
+      <p>Reconnaitre ton besoin de Dieu, croire que Jesus est mort et ressuscite pour toi, et lui confier ta vie.</p>
+    </div>
+    <div class="hero-cta">
+      <a href="chat.html" class="btn btn-primary">Poser une question</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Fait avec foi et esperance, pour annoncer l'Evangile et le retour de Jesus-Christ.</p>
+  </div>
+</footer>
+
+</body>
+</html>  }
   header h1 {
     font-family: var(--font-display);
     font-weight: 500;
