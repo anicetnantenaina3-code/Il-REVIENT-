@@ -49,13 +49,3 @@ exports.handler = async function (event) {
     return { statusCode: 500, body: JSON.stringify({ error: err.message }) };
   }
 };
-Après avoir collé
-Avant de valider, remonte tout en haut du fichier et vérifie que la toute première ligne commence bien par var SYSTEM_PROMPT = [ — pas autre chose.
-Descends en bas → Commit changes.
-Attends 1-2 minutes que Netlify redéploie.
-Recharge le site et teste à nouveau.
-Si ça ne marche toujours pas après ça
-Le problème ne viendrait alors plus du clavier, mais possiblement d'un souci différent (clé API, format de réponse d'Inception). Dans ce cas, au lieu de continuer à coller du code sur mobile (source d'erreurs répétées), je peux :
-
-Te donner un lien pour éditer directement sur github.dev (l'éditeur de code complet de GitHub, qui accède aux fichiers sans passer par le clavier mobile standard et évite ces substitutions de caractères).
-Ou passer en revue ensemble, étape par étape, si l'API Inception elle-même répond correctement (en testant autrement).
