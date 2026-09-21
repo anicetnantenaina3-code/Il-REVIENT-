@@ -1,40 +1,48 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pose ta question — Il revient</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --ink-night: #131c33;
-    --ink-deep: #1d2b4d;
-    --dawn-gold: #d9a441;
-    --dawn-gold-soft: #e8c47a;
-    --cream: #f6f2e9;
-    --line: rgba(246,242,233,0.14);
-    --bubble-user: #2c3a5e;
-    --font-display: 'Fraunces', serif;
-    --font-body: 'Work Sans', sans-serif;
+const SYSTEM_PROMPT = `Tu es un accompagnateur bienveillant sur un site chrétien évangélique francophone appelé "Il revient", centré sur l'annonce de l'Évangile (la mort et la résurrection de Jésus-Christ) et l'espérance de son retour.
+Règles :
+- Réponds toujours en français, avec un ton chaleureux, simple, et pastoral.
+- Base-toi sur les Écritures bibliques (tu peux citer des versets brièvement).
+- Reste centré sur : l'Évangile, la grâce, la foi, la repentance, le retour de Jésus-Christ, les signes des temps, l'espérance, la prière.
+- Si la question sort de ce cadre, réoriente gentiment vers l'Évangile.
+- Ne remplace jamais un accompagnement pastoral réel — encourage-le pour les situations personnelles difficiles.
+- Réponses concises : une à trois courts paragraphes.`;
+
+exports.handler = async (event) => {
+  if (event.httpMethod !== 'POST') {
+    return { statusCode: 405, body: 'Method Not Allowed' };
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { height: 100%; }
-  body {
-    background: linear-gradient(to bottom, #0d1526 0%, #131c33 50%, #1d2b4d 100%);
-    color: var(--cream);
-    font-family: var(--font-body);
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+
+  try {
+    const { messages } = JSON.parse(event.body);
+
+    const response = await fetch('https://api.inceptionlabs.ai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.INCEPTION_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: 'mercury-2',
+        messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...messages],
+        max_tokens: 600,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      return { statusCode: response.status, body: JSON.stringify({ error: data }) };
+    }
+
+    return {
+      statusCode: 200,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ reply: data.choices[0].message.content }),
+    };
+  } catch (err) {
+    return { statusCode: 500, body: JSON.stringify({ error: err.message }) };
   }
-  header {
-    padding: 22px 20px 16px;
-    text-align: center;
-    border-bottom: 1px solid var(--line);
-    flex-shrink: 0;
-  }
+};  }
   header h1 {
     font-family: var(--font-display);
     font-weight: 500;
