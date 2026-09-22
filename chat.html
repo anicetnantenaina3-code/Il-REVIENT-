@@ -245,7 +245,7 @@ async function sendMessage(text) {
   } catch (err) {
     loading.textContent = 'ERREUR JAVASCRIPT: ' + err.message;
     loading.className = 'msg assistant';
-  } finally {
+   finally {
     sendBtn.disabled = false;
     scrollToBottom();
   }
