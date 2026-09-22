@@ -10,9 +10,19 @@ var SYSTEM_PROMPT = [
   "- Reponses concises : une a trois courts paragraphes."
 ].join(" ");
 
+var CORS_HEADERS = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "Content-Type",
+  "Access-Control-Allow-Methods": "POST, OPTIONS"
+};
+
 exports.handler = async function (event) {
+  if (event.httpMethod === "OPTIONS") {
+    return { statusCode: 200, headers: CORS_HEADERS, body: "" };
+  }
+
   if (event.httpMethod !== "POST") {
-    return { statusCode: 405, body: "Method Not Allowed" };
+    return { statusCode: 405, headers: CORS_HEADERS, body: "Method Not Allowed" };
   }
 
   try {
@@ -37,15 +47,15 @@ exports.handler = async function (event) {
     var data = await response.json();
 
     if (!response.ok) {
-      return { statusCode: response.status, body: JSON.stringify({ error: data }) };
+      return { statusCode: response.status, headers: CORS_HEADERS, body: JSON.stringify({ error: data }) };
     }
 
     return {
       statusCode: 200,
-      headers: { "Content-Type": "application/json" },
+      headers: Object.assign({ "Content-Type": "application/json" }, CORS_HEADERS),
       body: JSON.stringify({ reply: data.choices[0].message.content })
     };
   } catch (err) {
-    return { statusCode: 500, body: JSON.stringify({ error: err.message }) };
+    return { statusCode: 500, headers: CORS_HEADERS, body: JSON.stringify({ error: err.message }) };
   }
 };
