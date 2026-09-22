@@ -220,20 +220,36 @@ async function sendMessage(text) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ messages: history })
     });
-    var data = await res.json();
-    var reply = data.reply || "Desole, je n'ai pas pu repondre a l'instant.";
-    loading.textContent = reply;
-    loading.className = 'msg assistant';
-    history.push({ role: 'assistant', content: reply });
+
+    var rawText = await res.text();
+    var debugInfo = 'STATUT HTTP: ' + res.status + '\n\nREPONSE BRUTE:\n' + rawText;
+
+    var data;
+    try {
+      data = JSON.parse(rawText);
+    } catch (parseErr) {
+      loading.textContent = 'ERREUR DE DEBUG:\n' + debugInfo;
+      loading.className = 'msg assistant';
+      sendBtn.disabled = false;
+      return;
+    }
+
+    if (data.reply) {
+      loading.textContent = data.reply;
+      loading.className = 'msg assistant';
+      history.push({ role: 'assistant', content: data.reply });
+    } else {
+      loading.textContent = 'ERREUR DE DEBUG (pas de reply):\n' + debugInfo;
+      loading.className = 'msg assistant';
+    }
   } catch (err) {
-    loading.textContent = "Erreur de connexion. Reessaie dans un instant.";
+    loading.textContent = 'ERREUR JAVASCRIPT: ' + err.message;
     loading.className = 'msg assistant';
   } finally {
     sendBtn.disabled = false;
     scrollToBottom();
   }
-}
-
+  }
 form.addEventListener('submit', function (e) {
   e.preventDefault();
   sendMessage(input.value);
